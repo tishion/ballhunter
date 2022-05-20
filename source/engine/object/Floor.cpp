@@ -4,8 +4,9 @@
 
 namespace Engine {
 
-Floor::Floor(IRenderer::RefPtr renderer, int x, int z, uint32_t width, uint32_t height)
-    : m_pImpl(new Implementation(renderer, x, z, width, height)) {
+Floor::Floor(IRenderer::RefPtr renderer, Common::Float4x4 pos)
+    : m_pImpl(new Implementation(*this, renderer))
+    , m_pos(pos) {
 }
 
 Floor::~Floor() {

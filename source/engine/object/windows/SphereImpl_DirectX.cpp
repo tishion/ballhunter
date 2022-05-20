@@ -2,8 +2,8 @@
 
 #include <engine/renderer/windows/DXRenderingContext.h>
 
-Engine::Sphere::Implementation::Implementation(Engine::Sphere& host)
-    : m_obj(host) {
+Engine::Sphere::Implementation::Implementation(Engine::Sphere& obj)
+    : m_obj(obj) {
   m_deviceResource = static_cast<DXDeviceResources*>(m_obj.m_pRenderer->GetDeviceResource());
 }
 
@@ -16,7 +16,6 @@ bool Engine::Sphere::Implementation::Initialize() {
   }
 
   m_shape = DirectX::GeometricPrimitive::CreateSphere(m_deviceResource->GetD3DDeviceContext(), m_obj.m_radius * 2.0f);
-
   return true;
 }
 

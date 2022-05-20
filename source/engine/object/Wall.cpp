@@ -3,7 +3,7 @@
 #include "windows/WallImpl_DirectX.h"
 
 Engine::Wall::Wall(IRenderer::RefPtr renderer)
-    : m_pImpl(new Implementation(renderer)) {
+    : m_pImpl(new Implementation(*this, renderer)) {
 }
 
 Engine::Wall::~Wall() {

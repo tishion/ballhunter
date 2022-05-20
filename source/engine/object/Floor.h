@@ -20,7 +20,7 @@ class Floor : public IRenderable {
   DECLARE_SMART_POINTER(Floor);
 
 public:
-  Floor(IRenderer::RefPtr renderer, int x, int z, uint32_t width, uint32_t height);
+  Floor(IRenderer::RefPtr renderer, Common::Float4x4 pos);
 
   ~Floor();
 
@@ -33,6 +33,8 @@ public:
 private:
   class Implementation;
   std::unique_ptr<Implementation> m_pImpl;
+
+  Common::Float4x4 m_pos;
 };
 
 } // namespace Engine

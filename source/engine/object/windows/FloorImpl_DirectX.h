@@ -14,7 +14,10 @@
 
 #include <d3d11.h>
 
-#include <DirectXTK/SimpleMath.h>
+#include <DirectXTK/CommonStates.h>
+#include <DirectXTK/Effects.h>
+#include <DirectXTK/PrimitiveBatch.h>
+#include <DirectXTK/VertexTypes.h>
 
 #include <engine/renderer/windows/DXDeviceResources.h>
 
@@ -24,7 +27,7 @@ namespace Engine {
 
 class Floor::Implementation {
 public:
-  Implementation(IRenderer::RefPtr renderer, int x, int z, uint32_t width, uint32_t height);
+  Implementation(Engine::Floor& obj, IRenderer::RefPtr renderer);
 
   ~Implementation();
 
@@ -34,25 +37,19 @@ public:
 
   void Render(void* context);
 
-private:
-  bool CreateBuffers();
-
-  void ReleaseBuffers();
-
 public:
+  Engine::Floor& m_obj;
   Engine::IRenderer::RefPtr m_pRenderer;
+
   DXDeviceResources* m_deviceResource = nullptr;
 
-  Microsoft::WRL::ComPtr<ID3D11Buffer> m_vertexBuffer;
-  Microsoft::WRL::ComPtr<ID3D11Buffer> m_indexBuffer;
+  typedef DirectX::VertexPositionTexture VertexType;
+  typedef DirectX::PrimitiveBatch<VertexType> QuadBatch;
 
-  DirectX::SimpleMath::Matrix m_worldMatrix;
-  int m_x = 0;
-  int m_z = 0;
-  int m_width = 100;
-  int m_height = 100;
-  int m_vertexCount = 0;
-  int m_indexCount = 0;
+  std::unique_ptr<QuadBatch> m_pBatch;
+  std::unique_ptr<DirectX::BasicEffect> m_effect;
+  Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_texture;
+  Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
 };
 } // namespace Engine
 

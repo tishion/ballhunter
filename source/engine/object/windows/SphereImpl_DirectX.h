@@ -20,7 +20,7 @@ namespace Engine {
 
 class Sphere::Implementation {
 public:
-  Implementation(Engine::Sphere& host);
+  Implementation(Engine::Sphere& obj);
 
   ~Implementation();
 

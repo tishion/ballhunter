@@ -19,7 +19,7 @@ namespace Engine {
 
 class Wall::Implementation {
 public:
-  Implementation(IRenderer::RefPtr renderer);
+  Implementation(Engine::Wall& obj, IRenderer::RefPtr renderer);
 
   ~Implementation();
 
@@ -30,7 +30,9 @@ public:
   void Render(void* context);
 
 public:
+  Engine::Wall& m_obj;
   Engine::IRenderer::RefPtr m_pRenderer;
+
   DXDeviceResources* m_deviceResource = nullptr;
 };
 } // namespace Engine
