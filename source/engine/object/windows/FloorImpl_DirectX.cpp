@@ -27,8 +27,8 @@ bool Engine::Floor::Implementation::Initialize() {
 
   DX::ThrowIfFailed(DirectX::CreateWICTextureFromFile(m_deviceResource->GetD3DDevice(), L"ground.jpg", nullptr,
                                                       m_texture.ReleaseAndGetAddressOf()));
-  m_effect->SetTextureEnabled(true);
-  m_effect->SetTexture(m_texture.Get());
+  // m_effect->SetTextureEnabled(true);
+  // m_effect->SetTexture(m_texture.Get());
 
   DX::ThrowIfFailed(DirectX::CreateInputLayoutFromEffect<VertexType>(m_deviceResource->GetD3DDevice(), m_effect.get(),
                                                                      m_inputLayout.ReleaseAndGetAddressOf()));

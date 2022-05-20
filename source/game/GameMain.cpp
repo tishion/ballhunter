@@ -28,10 +28,10 @@ bool GameMain::Initialize(SDL_Window* window) {
   //                          Common::Float3(0.0f, 1.0f, 0.0f)    // The Up vector for the camera.
   //);
 
-  // set camera matrix, 0x & 0y & 0+z
+  //// set camera matrix, 0x & 0y & 0+z
   // m_pCamera->SetViewParams(Common::Float3(0.0f, 0.0f, 50.0f), // Eye point in world coordinates.
-  //                         Common::Float3(0.0f, 0.0f, 0.0f),  // Look at point in world coordinates.
-  //                         Common::Float3(0.0f, 1.0f, 0.0f)   // The Up vector for the camera.
+  //                          Common::Float3(0.0f, 0.0f, 0.0f),  // Look at point in world coordinates.
+  //                          Common::Float3(0.0f, 1.0f, 0.0f)   // The Up vector for the camera.
   //);
 
   // set camera matrix, 0x & +y & 0z
@@ -48,12 +48,12 @@ bool GameMain::Initialize(SDL_Window* window) {
   m_pFloor = std::make_shared<Engine::Floor>(m_pRenderer, floorVertices);
   m_pFloor->Initialize();
 
-  m_pSprite = std::make_shared<Game::Sprite>(m_pRenderer, m_pController, 2.0f);
+  m_pSprite = std::make_shared<Game::Sprite>(m_pRenderer, m_pController, 5.0f);
   m_pSprite->Initialize();
 
-  m_pBall = std::make_shared<Game::Ball>(m_pRenderer, 2.0f);
+  m_pBall = std::make_shared<Game::Ball>(m_pRenderer, 5.0f);
   m_pBall->Initialize();
-  m_pBall->SetVelocity(Common::Float3(0.2f, 0.0f, 0.0f));
+  m_pBall->SetVelocity(Common::Float3(0.0f, 0.0f, 1.0f));
 
   return true;
 }

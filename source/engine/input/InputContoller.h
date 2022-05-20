@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include <SDL.h>
+#include <SDL_events.h>
 
 #include <common/BasicTypes.h>
 #include <common/SmartPointer.h>
@@ -24,6 +24,8 @@ public:
 
   ~InputContoller();
 
+  Common::Float3 GetVelocity();
+
   void Update(const SDL_Event& e);
 
 protected:
@@ -37,17 +39,12 @@ private:
   Common::Float3 m_moveCommand;
 
   Common::Float3 m_velocity;
-  float m_pitch = 0;
-  float m_yaw = 0;
 
   // Input states for Keyboard.
   bool m_forward = false;
   bool m_back = false;
   bool m_left = false;
   bool m_right = false;
-  bool m_up = false;
-  bool m_down = false;
-  bool m_pause = false;
 };
 } // namespace Engine
 

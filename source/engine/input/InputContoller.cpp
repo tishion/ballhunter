@@ -1,52 +1,42 @@
 ﻿#include "InputContoller.h"
 
-const float MovementGain = 2.0f;
+const float MovementGain = 10.0f;
 
-Engine::InputContoller::InputContoller() {
+Engine::InputContoller::InputContoller()
+    : m_moveCommand(0, 0, 0)
+    , m_velocity(0, 0, 0) {
 }
 
 Engine::InputContoller::~InputContoller() {
+}
+
+Common::Float3 Engine::InputContoller::GetVelocity() {
+  return m_velocity;
 }
 
 void Engine::InputContoller::Update(const SDL_Event& e) {
   PollingInputEvent(e);
 
   if (m_forward) {
-    m_moveCommand.y += 1.0f;
-  }
-  if (m_back) {
-    m_moveCommand.y -= 1.0f;
-  }
-  if (m_left) {
-    m_moveCommand.x += 1.0f;
-  }
-  if (m_right) {
-    m_moveCommand.x -= 1.0f;
-  }
-  if (m_up) {
-    m_moveCommand.z += 1.0f;
-  }
-  if (m_down) {
     m_moveCommand.z -= 1.0f;
   }
+  if (m_back) {
+    m_moveCommand.z += 1.0f;
+  }
+  if (m_left) {
+    m_moveCommand.x -= 1.0f;
+  }
+  if (m_right) {
+    m_moveCommand.x += 1.0f;
+  }
 
-  // Make sure that 45deg cases are not faster.
-  if (fabsf(m_moveCommand.x) > 0.1f || fabsf(m_moveCommand.y) > 0.1f || fabsf(m_moveCommand.z) > 0.1f) {
+  if (fabsf(m_moveCommand.x) > 0.1f || fabsf(m_moveCommand.z) > 0.1f) {
     m_moveCommand.Normalize();
   }
 
-  // Rotate command to align with our direction (world coordinates).
-  Common::Float3 wCommand;
-  wCommand.x = m_moveCommand.x * cosf(m_yaw) - m_moveCommand.y * sinf(m_yaw);
-  wCommand.y = m_moveCommand.x * sinf(m_yaw) + m_moveCommand.y * cosf(m_yaw);
-  wCommand.z = m_moveCommand.z;
+  m_velocity.x = m_moveCommand.x * MovementGain;
+  m_velocity.z = m_moveCommand.z * MovementGain;
 
-  // Scale for sensitivity adjustment, the velocity is based on the command. Y is up.
-  m_velocity.x = -wCommand.x * MovementGain;
-  m_velocity.z = wCommand.y * MovementGain;
-  m_velocity.y = wCommand.z * MovementGain;
-
-  // Clear movement input accumulator for use during next frame.
   m_moveCommand = Common::Float3(0.0f, 0.0f, 0.0f);
 }
 

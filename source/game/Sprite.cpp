@@ -1,5 +1,7 @@
 ﻿#include "Sprite.h"
 
+#include <common/Logger.h>
+
 using namespace Common;
 
 Game::Sprite::Sprite(Engine::IRenderer::RefPtr renderer, Engine::InputContoller::RefPtr controller, float radius)
@@ -15,6 +17,8 @@ Game::Sprite::~Sprite() {
 
 void Game::Sprite::Update(const Engine::StepTimer& timer) {
   auto velocity = m_pController->GetVelocity();
+
+  LOG(INFO) << "V: " << velocity.x << ", " << velocity.y << ", " << velocity.z;
 
   // compute move vector
   float elapsedSecond = timer.GetElapsedSeconds();
