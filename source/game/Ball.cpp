@@ -4,18 +4,17 @@
 
 using namespace Common;
 
-namespace Game {
-
-Ball::Ball(Engine::IRenderer::RefPtr renderer, float radius)
+Game::Ball::Ball(Engine::IRenderer::RefPtr renderer, float radius)
     : Engine::Sphere(renderer, radius) {
+  m_position.z = -20.0f;
   m_rotationMatrix = Matrix::FromTranslationVector(m_position);
   m_translateMatrix = Matrix::FromTranslationVector(m_position);
 }
 
-Ball::~Ball() {
+Game::Ball::~Ball() {
 }
 
-void Ball::Update(const Engine::StepTimer& timer) {
+void Game::Ball::Update(const Engine::StepTimer& timer) {
   // compute move vector
   float elapsedSecond = timer.GetElapsedSeconds();
   auto moveVector = m_velocity * elapsedSecond;
@@ -33,4 +32,3 @@ void Ball::Update(const Engine::StepTimer& timer) {
   // compute the word matrix by translation and rotation
   m_worldMatrix = m_translateMatrix * m_rotationMatrix;
 }
-} // namespace Game

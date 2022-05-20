@@ -11,8 +11,6 @@
 
 #include <vector>
 
-#include <SDL.h>
-
 #include <engine/renderer/IRenderer.h>
 
 #include "DXDeviceResources.h"

@@ -8,6 +8,7 @@ Engine::Sphere::Implementation::Implementation(Engine::Sphere& obj)
 }
 
 Engine::Sphere::Implementation::~Implementation() {
+  return;
 }
 
 bool Engine::Sphere::Implementation::Initialize() {
@@ -29,7 +30,7 @@ void Engine::Sphere::Implementation::Render(void* context) {
     return;
   }
 
-  DirectX::SimpleMath::Matrix worldMatrix(&m_obj.m_worldMatrix[0]);
+  DirectX::SimpleMath::Matrix worldMatrix(&(m_obj.m_worldMatrix[0]));
   m_shape->Draw(worldMatrix, renderingContext->m_viewMatrix, renderingContext->m_projMatrix, DirectX::Colors::BurlyWood,
                 nullptr, true);
 }

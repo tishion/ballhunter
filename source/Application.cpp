@@ -1,5 +1,7 @@
 ﻿#include "Application.h"
 
+#include <SDL.h>
+
 #include <common/Logger.h>
 
 Application::Application()

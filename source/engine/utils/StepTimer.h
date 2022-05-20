@@ -11,7 +11,7 @@
 
 #include <cstdint>
 
-#include <SDL.h>
+#include <SDL_timer.h>
 
 namespace Engine {
 

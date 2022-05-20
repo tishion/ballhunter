@@ -9,6 +9,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include <common/SmartPointer.h>
 
 #include <engine/input/InputContoller.h>
@@ -18,6 +20,7 @@
 #include <engine/utils/StepTimer.h>
 
 #include <game/Ball.h>
+#include <game/Sprite.h>
 
 namespace Game {
 
@@ -57,6 +60,7 @@ private:
 
   Engine::Floor::RefPtr m_pFloor;
   Game::Ball::RefPtr m_pBall;
+  Game::Sprite::RefPtr m_pSprite;
 };
 
 } // namespace Game
