@@ -22,7 +22,12 @@ public:
 
   ~Ball();
 
+  void SetBounds(Common::Float4 rect);
+
   void Update(const Engine::StepTimer& timer) override;
+
+protected:
+  void HandleCollision(Common::Float3 pos);
 
 private:
   // accumulated translation matrix
@@ -30,6 +35,10 @@ private:
 
   // accumulated rotation matrix
   Common::Matrix m_rotationMatrix;
+
+  Common::Float4 m_bound;
+
+  Common::Float3 m_moveVector;
 };
 } // namespace Game
 

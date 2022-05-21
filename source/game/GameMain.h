@@ -58,6 +58,11 @@ private:
   Engine::IRenderer::RefPtr m_pRenderer;
   Engine::InputContoller::RefPtr m_pController;
 
+  float worldLeft;
+  float worldRight;
+  float worldTop;
+  float worldBottom;
+
   Engine::Floor::RefPtr m_pFloor;
   Game::Ball::RefPtr m_pBall;
   Game::Sprite::RefPtr m_pSprite;

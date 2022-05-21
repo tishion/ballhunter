@@ -11,6 +11,10 @@ GameMain::GameMain()
     , m_pCamera(std::make_shared<Engine::Camera>())
     , m_pRenderer(Engine::RendererFactory::CreateRenderer())
     , m_pController(std::make_shared<Engine::InputContoller>()) {
+  worldLeft = -50.0f;
+  worldRight = 50.0f;
+  worldTop = -50.0f;
+  worldBottom = 50.0f;
 }
 
 GameMain::~GameMain() {
@@ -22,17 +26,17 @@ bool GameMain::Initialize(SDL_Window* window) {
     return false;
   }
 
-  //// set camera matrix, 0x & +y & +z
-  // m_pCamera->SetViewParams(Common::Float3(0.0f, 50.0f, 70.0f), // Eye point in world coordinates.
-  //                          Common::Float3(0.0f, 0.0f, 0.0f),    // Look at point in world coordinates.
-  //                          Common::Float3(0.0f, 1.0f, 0.0f)     // The Up vector for the camera.
-  //);
-
-  // set camera matrix, 0x & 0y & 0+z
-  m_pCamera->SetViewParams(Common::Float3(0.0f, 0.0f, 100.0f), // Eye point in world coordinates.
-                           Common::Float3(0.0f, 0.0f, 0.0f),   // Look at point in world coordinates.
-                           Common::Float3(0.0f, 1.0f, 0.0f)    // The Up vector for the camera.
+  // set camera matrix, 0x & +y & +z
+  m_pCamera->SetViewParams(Common::Float3(0.0f, 50.0f, 100.0f), // Eye point in world coordinates.
+                           Common::Float3(0.0f, 0.0f, 0.0f),    // Look at point in world coordinates.
+                           Common::Float3(0.0f, 1.0f, 0.0f)     // The Up vector for the camera.
   );
+
+  //// set camera matrix, 0x & 0y & 0+z
+  // m_pCamera->SetViewParams(Common::Float3(0.0f, 0.0f, 100.0f), // Eye point in world coordinates.
+  //                          Common::Float3(0.0f, 0.0f, 0.0f),   // Look at point in world coordinates.
+  //                          Common::Float3(0.0f, 1.0f, 0.0f)    // The Up vector for the camera.
+  //);
 
   //// set camera matrix, 0x & +y & 0z
   // m_pCamera->SetViewParams(Common::Float3(0.0f, 150.0f, 0.0f), // Eye point in world coordinates.
@@ -40,10 +44,10 @@ bool GameMain::Initialize(SDL_Window* window) {
   //                          Common::Float3(0.0f, 0.0f, -1.0f)   // The Up vector for the camera.
   //);
 
-  Common::Float4x4 floorVertices(Common::Float4(-50.0f, 0.0f, -50.0f, 0.0f), //
-                                 Common::Float4(50.0f, 0.0f, -50.0f, 0.0f),  //
-                                 Common::Float4(50.0f, 0.0f, 50.0f, 0.0f),   //
-                                 Common::Float4(-50.0f, 0.0f, 50.0f, 0.0f)   //
+  Common::Float4x4 floorVertices(Common::Float4(worldLeft, 0.0f, worldTop, 0.0f),     //
+                                 Common::Float4(worldRight, 0.0f, worldTop, 0.0f),    //
+                                 Common::Float4(worldRight, 0.0f, worldBottom, 0.0f), //
+                                 Common::Float4(worldLeft, 0.0f, worldBottom, 0.0f)   //
   );
   m_pFloor = std::make_shared<Engine::Floor>(m_pRenderer, floorVertices);
   m_pFloor->Initialize();
@@ -53,7 +57,8 @@ bool GameMain::Initialize(SDL_Window* window) {
 
   m_pBall = std::make_shared<Game::Ball>(m_pRenderer, 5.0f);
   m_pBall->Initialize();
-  m_pBall->SetVelocity(Common::Float3(0.0f, 0.0f, 1.0f));
+  m_pBall->SetBounds(Common::Float4(worldLeft, worldTop, worldRight, worldBottom));
+  m_pBall->SetVelocity(Common::Float3(123.45f, 0.0f, 67.89f));
 
   return true;
 }
@@ -97,6 +102,7 @@ void GameMain::Update() {
 
 void GameMain::UpdateGame() {
   m_pSprite->Update(m_timer);
+
   m_pBall->Update(m_timer);
 }
 
