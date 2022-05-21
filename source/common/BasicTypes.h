@@ -11,6 +11,7 @@
 
 #include <cstdint>
 
+#include <mathfu/constants.h>
 #include <mathfu/matrix.h>
 #include <mathfu/quaternion.h>
 #include <mathfu/vector.h>
@@ -27,6 +28,8 @@ typedef mathfu::Quaternion<float> Quaternion;
 
 /* pi */
 const float PI_VAL = 3.14159265358979323846f;
+
+const float F_MIN = 1e-7f;
 
 } // namespace Common
 

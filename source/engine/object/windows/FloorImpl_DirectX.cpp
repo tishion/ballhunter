@@ -27,8 +27,8 @@ bool Engine::Floor::Implementation::Initialize() {
 
   DX::ThrowIfFailed(DirectX::CreateWICTextureFromFile(m_deviceResource->GetD3DDevice(), L"ground.jpg", nullptr,
                                                       m_texture.ReleaseAndGetAddressOf()));
-  // m_effect->SetTextureEnabled(true);
-  // m_effect->SetTexture(m_texture.Get());
+  m_effect->SetTextureEnabled(true);
+  m_effect->SetTexture(m_texture.Get());
 
   DX::ThrowIfFailed(DirectX::CreateInputLayoutFromEffect<VertexType>(m_deviceResource->GetD3DDevice(), m_effect.get(),
                                                                      m_inputLayout.ReleaseAndGetAddressOf()));
@@ -64,7 +64,7 @@ void Engine::Floor::Implementation::Render(void* context) {
   m_effect->SetProjection(renderingContext->m_projMatrix);
   m_effect->Apply(deviceContext);
 
-  auto sampler = renderingContext->m_states->LinearClamp();
+  auto sampler = renderingContext->m_states->PointWrap();
   deviceContext->PSSetSamplers(0, 1, &sampler);
   deviceContext->IASetInputLayout(m_inputLayout.Get());
 
@@ -72,11 +72,11 @@ void Engine::Floor::Implementation::Render(void* context) {
   DirectX::VertexPositionTexture v1(DirectX::SimpleMath::Vector3(&m_obj.m_pos.GetColumn(0)[0]),
                                     DirectX::SimpleMath::Vector2(0, 0));
   DirectX::VertexPositionTexture v2(DirectX::SimpleMath::Vector3(&m_obj.m_pos.GetColumn(1)[0]),
-                                    DirectX::SimpleMath::Vector2(1, 0));
+                                    DirectX::SimpleMath::Vector2(4, 0));
   DirectX::VertexPositionTexture v3(DirectX::SimpleMath::Vector3(&m_obj.m_pos.GetColumn(2)[0]),
-                                    DirectX::SimpleMath::Vector2(1, 1));
+                                    DirectX::SimpleMath::Vector2(4, 4));
   DirectX::VertexPositionTexture v4(DirectX::SimpleMath::Vector3(&m_obj.m_pos.GetColumn(3)[0]),
-                                    DirectX::SimpleMath::Vector2(0, 1));
+                                    DirectX::SimpleMath::Vector2(0, 4));
   m_pBatch->DrawQuad(v1, v2, v3, v4);
   m_pBatch->End();
 }

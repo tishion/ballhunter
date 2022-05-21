@@ -7,7 +7,7 @@ using namespace Common;
 Game::Ball::Ball(Engine::IRenderer::RefPtr renderer, float radius)
     : Engine::Sphere(renderer, radius) {
   m_position.z = -20.0f;
-  m_rotationMatrix = Matrix::FromTranslationVector(m_position);
+  m_rotationMatrix = Matrix::Identity();
   m_translateMatrix = Matrix::FromTranslationVector(m_position);
 }
 

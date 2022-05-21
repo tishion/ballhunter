@@ -23,22 +23,22 @@ bool GameMain::Initialize(SDL_Window* window) {
   }
 
   //// set camera matrix, 0x & +y & +z
-  // m_pCamera->SetViewParams(Common::Float3(0.0f, 80.0f, 80.0f), // Eye point in world coordinates.
-  //                          Common::Float3(0.0f, 0.0f, 0.0f),   // Look at point in world coordinates.
-  //                          Common::Float3(0.0f, 1.0f, 0.0f)    // The Up vector for the camera.
+  // m_pCamera->SetViewParams(Common::Float3(0.0f, 50.0f, 70.0f), // Eye point in world coordinates.
+  //                          Common::Float3(0.0f, 0.0f, 0.0f),    // Look at point in world coordinates.
+  //                          Common::Float3(0.0f, 1.0f, 0.0f)     // The Up vector for the camera.
   //);
 
-  //// set camera matrix, 0x & 0y & 0+z
-  // m_pCamera->SetViewParams(Common::Float3(0.0f, 0.0f, 50.0f), // Eye point in world coordinates.
-  //                          Common::Float3(0.0f, 0.0f, 0.0f),  // Look at point in world coordinates.
-  //                          Common::Float3(0.0f, 1.0f, 0.0f)   // The Up vector for the camera.
-  //);
-
-  // set camera matrix, 0x & +y & 0z
-  m_pCamera->SetViewParams(Common::Float3(0.0f, 150.0f, 0.0f), // Eye point in world coordinates.
+  // set camera matrix, 0x & 0y & 0+z
+  m_pCamera->SetViewParams(Common::Float3(0.0f, 0.0f, 100.0f), // Eye point in world coordinates.
                            Common::Float3(0.0f, 0.0f, 0.0f),   // Look at point in world coordinates.
-                           Common::Float3(0.0f, 0.0f, -1.0f)   // The Up vector for the camera.
+                           Common::Float3(0.0f, 1.0f, 0.0f)    // The Up vector for the camera.
   );
+
+  //// set camera matrix, 0x & +y & 0z
+  // m_pCamera->SetViewParams(Common::Float3(0.0f, 150.0f, 0.0f), // Eye point in world coordinates.
+  //                          Common::Float3(0.0f, 0.0f, 0.0f),   // Look at point in world coordinates.
+  //                          Common::Float3(0.0f, 0.0f, -1.0f)   // The Up vector for the camera.
+  //);
 
   Common::Float4x4 floorVertices(Common::Float4(-50.0f, 0.0f, -50.0f, 0.0f), //
                                  Common::Float4(50.0f, 0.0f, -50.0f, 0.0f),  //

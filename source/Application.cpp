@@ -28,7 +28,7 @@ Application::~Application() {
 int Application::Run() {
 
   // create main window
-  m_window = SDL_CreateWindow("BallHunter", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600,
+  m_window = SDL_CreateWindow("BallHunter", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1280, 760,
                               SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
   if (m_window == nullptr) {
     LOG(ERROR) << "SDL_CreateWindow Error: " << SDL_GetError();
