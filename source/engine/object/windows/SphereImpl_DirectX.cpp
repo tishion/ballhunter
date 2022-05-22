@@ -63,14 +63,18 @@ void Engine::Sphere::Implementation::Render(void* context) {
     return;
   }
 
-  deviceContext->OMSetBlendState(renderingContext->m_states->Opaque(), nullptr, 0xFFFFFFFF);
-  deviceContext->OMSetDepthStencilState(renderingContext->m_states->DepthNone(), 0);
-  deviceContext->RSSetState(renderingContext->m_states->CullNone());
-
   SimpleMath::Matrix worldMatrix(&(m_obj.m_worldMatrix[0]));
   m_effect->SetWorld(worldMatrix);
   m_effect->SetView(renderingContext->m_viewMatrix);
   m_effect->SetProjection(renderingContext->m_projMatrix);
 
+  // Rasterizer
+  deviceContext->RSSetState(renderingContext->m_states->CullNone());
+
+  // Output Merge
+  deviceContext->OMSetDepthStencilState(renderingContext->m_states->DepthNone(), 0);
+  deviceContext->OMSetBlendState(renderingContext->m_states->Opaque(), nullptr, 0xFFFFFFFF);
+
+  // Draw
   m_shape->Draw(m_effect.get(), m_inputLayout.Get());
 }
