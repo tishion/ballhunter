@@ -30,9 +30,9 @@ bool GameMain::Initialize(SDL_Window* window) {
   }
 
   // set camera matrix, 0x & +y & +z
-  m_pCamera->SetViewParams(Common::Float3(0.0f, 50.0f, 100.0f), // Eye point in world coordinates.
-                           Common::Float3(0.0f, 0.0f, 0.0f),    // Look at point in world coordinates.
-                           Common::Float3(0.0f, 1.0f, 0.0f)     // The Up vector for the camera.
+  m_pCamera->SetViewParams(Common::Float3(0.0f, 0.0f, 120.0f), // Eye point in world coordinates.
+                           Common::Float3(0.0f, 0.0f, 0.0f),   // Look at point in world coordinates.
+                           Common::Float3(0.0f, 1.0f, 0.0f)    // The Up vector for the camera.
   );
 
   //// set camera matrix, 0x & 0y & 0+z
@@ -53,8 +53,8 @@ bool GameMain::Initialize(SDL_Window* window) {
                                  Common::Float4(worldRight, 0.0f, worldBottom, 0.0f), //
                                  Common::Float4(worldLeft, 0.0f, worldBottom, 0.0f)   //
   );
-  m_pGround = std::make_shared<Game::Ground>(m_pRenderer, m_pPhysics, floorVertices);
-  m_pGround->Initialize();
+  m_pTable = std::make_shared<Game::Table>(m_pRenderer, m_pPhysics, floorVertices);
+  m_pTable->Initialize();
 
   // initialize the sprite
   m_pSprite = std::make_shared<Game::Sprite>(m_pRenderer, m_pPhysics, m_pController, 5.0f);
@@ -97,9 +97,9 @@ void GameMain::Uninitialize() {
     m_pSprite.reset();
   }
 
-  if (m_pGround) {
-    m_pGround->Uninitialize();
-    m_pGround.reset();
+  if (m_pTable) {
+    m_pTable->Uninitialize();
+    m_pTable.reset();
   }
 
   if (m_pRenderer) {
@@ -132,16 +132,18 @@ void GameMain::RestartGame() {
   float x = 0;
   float z = 0;
   ::srand(time(nullptr));
-  m_pBallA->SetPosition(Common::Float3(-40.0f, 0.0f, -40.0f));
-  x = Math::RandomInRange<float>(50.0f, 100.0f);
-  z = Math::RandomInRange<float>(50.0f, 100.0f);
+  m_pBallA->SetPosition(Common::Float3(-40.0f, 0.0f, 0.0f));
+  x = Math::RandomInRange<float>(100.0f, 1000.0f);
+  z = Math::RandomInRange<float>(100.0f, 1000.0f);
   m_pBallA->SetVelocity(Common::Float3(x, 0.0f, z));
+  m_pBallA->SetForceToMassCenter(-500.0f, 0.0f, 0.0f);
 
   ::srand(time(nullptr));
   m_pBallB->SetPosition(Common::Float3(40.0f, 0.0f, -40.0f));
-  x = Math::RandomInRange<float>(50.0f, 100.0f);
-  z = Math::RandomInRange<float>(50.0f, 100.0f);
+  x = Math::RandomInRange<float>(100.0f, 1000.0f);
+  z = Math::RandomInRange<float>(100.0f, 1000.0f);
   m_pBallB->SetVelocity(Common::Float3(x, 0.0f, z));
+  // m_pBallB->SetForceToMassCenter(x, 0.0f, z);
 }
 
 void GameMain::UpdateGame() {
@@ -151,7 +153,7 @@ void GameMain::UpdateGame() {
   m_pBallA->Update(m_timer);
   m_pBallB->Update(m_timer);
 
-  HandleBallBallCollision();
+  // HandleBallBallCollision();
 }
 
 bool GameMain::HandleBallBallCollision() {

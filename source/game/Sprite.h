@@ -25,7 +25,7 @@ public:
 
   ~Sprite();
 
-  void Update(const Engine::StepTimer& timer) override;
+  // void Update(const Engine::StepTimer& timer) override;
 
 private:
   Engine::InputContoller::RefPtr m_pController;

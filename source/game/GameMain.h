@@ -21,8 +21,8 @@
 #include <engine/utils/StepTimer.h>
 
 #include <game/Ball.h>
-#include <game/Ground.h>
 #include <game/Sprite.h>
+#include <game/Table.h>
 
 namespace Game {
 
@@ -73,7 +73,7 @@ private:
   float worldTop;
   float worldBottom;
 
-  Game::Ground::RefPtr m_pGround;
+  Game::Table::RefPtr m_pTable;
 
   Game::Ball::RefPtr m_pBallA;
   Game::Ball::RefPtr m_pBallB;

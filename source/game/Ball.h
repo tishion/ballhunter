@@ -25,6 +25,8 @@ public:
 
   void SetPosition(Common::Float3 position);
 
+  void SetForceToMassCenter(float fx, float fy, float fz);
+
   void SetBounds(Common::Float4 rect);
 
   void Update(const Engine::StepTimer& timer) override;
@@ -36,7 +38,7 @@ protected:
 protected:
   // physics parameters
   Engine::Physics::RefPtr m_pPhysics;
-  reactphysics3d::CollisionBody* m_pCollisionBody;
+  reactphysics3d::RigidBody* m_pPhysicsBody;
   reactphysics3d::SphereShape* m_pCollisionShape;
   reactphysics3d::Collider* m_pCollider;
 

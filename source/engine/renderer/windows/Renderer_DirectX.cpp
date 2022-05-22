@@ -70,7 +70,7 @@ void Renderer_DirectX::CreateWindowSizeDependentResources() {
   // set projection matrix
   auto w = m_pDeviceResources->GetOutputWidth();
   auto h = m_pDeviceResources->GetOutputHeight();
-  m_pCamera->SetProjParams(Common::PI_VAL / 4, float(w) / float(h), 0.1f, 100.f);
+  m_pCamera->SetProjParams(Common::PI_VAL / 4, float(w) / float(h), 0.1f, 1000.f);
 }
 
 void Renderer_DirectX::Render() {
