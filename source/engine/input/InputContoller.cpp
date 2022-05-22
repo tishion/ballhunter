@@ -11,7 +11,7 @@ Engine::InputContoller::~InputContoller() {
 }
 
 Common::Float3 Engine::InputContoller::GetVelocity() {
-  return m_velocity;
+  return m_velocity * m_vloecityGain;
 }
 
 void Engine::InputContoller::Update(const SDL_Event& e) {

@@ -9,6 +9,8 @@
 
 #include <engine/renderer/windows/DXRenderingContext.h>
 
+using namespace DirectX;
+
 Engine::Floor::Implementation::Implementation(Engine::Floor& obj, IRenderer::RefPtr renderer)
     : m_obj(obj)
     , m_pRenderer(renderer) {
@@ -23,17 +25,24 @@ bool Engine::Floor::Implementation::Initialize() {
     return false;
   }
 
-  m_effect = std::make_unique<DirectX::BasicEffect>(m_deviceResource->GetD3DDevice());
+  m_pBatch = std::make_unique<QuadBatch>(m_deviceResource->GetD3DDeviceContext());
 
-  DX::ThrowIfFailed(DirectX::CreateWICTextureFromFile(m_deviceResource->GetD3DDevice(), L"ground.jpg", nullptr,
-                                                      m_texture.ReleaseAndGetAddressOf()));
-  m_effect->SetTextureEnabled(true);
-  m_effect->SetTexture(m_texture.Get());
+  m_effect = std::make_unique<BasicEffect>(m_deviceResource->GetD3DDevice());
+
+  // load texture
+  if (!m_obj.m_textureImage.empty()) {
+    auto wszPath = m_obj.m_textureImage.wstring();
+    CreateWICTextureFromFile(m_deviceResource->GetD3DDevice(), wszPath.c_str(), nullptr,
+                             m_texture.ReleaseAndGetAddressOf());
+  }
+
+  if (m_texture) {
+    m_effect->SetTextureEnabled(true);
+    m_effect->SetTexture(m_texture.Get());
+  }
 
   DX::ThrowIfFailed(DirectX::CreateInputLayoutFromEffect<VertexType>(m_deviceResource->GetD3DDevice(), m_effect.get(),
                                                                      m_inputLayout.ReleaseAndGetAddressOf()));
-
-  m_pBatch = std::make_unique<QuadBatch>(m_deviceResource->GetD3DDeviceContext());
 
   return true;
 }
@@ -69,14 +78,10 @@ void Engine::Floor::Implementation::Render(void* context) {
   deviceContext->IASetInputLayout(m_inputLayout.Get());
 
   m_pBatch->Begin();
-  DirectX::VertexPositionTexture v1(DirectX::SimpleMath::Vector3(&m_obj.m_pos.GetColumn(0)[0]),
-                                    DirectX::SimpleMath::Vector2(0, 0));
-  DirectX::VertexPositionTexture v2(DirectX::SimpleMath::Vector3(&m_obj.m_pos.GetColumn(1)[0]),
-                                    DirectX::SimpleMath::Vector2(4, 0));
-  DirectX::VertexPositionTexture v3(DirectX::SimpleMath::Vector3(&m_obj.m_pos.GetColumn(2)[0]),
-                                    DirectX::SimpleMath::Vector2(4, 4));
-  DirectX::VertexPositionTexture v4(DirectX::SimpleMath::Vector3(&m_obj.m_pos.GetColumn(3)[0]),
-                                    DirectX::SimpleMath::Vector2(0, 4));
+  VertexPositionTexture v1(SimpleMath::Vector3(&m_obj.m_pos.GetColumn(0)[0]), SimpleMath::Vector2(0, 0));
+  VertexPositionTexture v2(SimpleMath::Vector3(&m_obj.m_pos.GetColumn(1)[0]), SimpleMath::Vector2(4, 0));
+  VertexPositionTexture v3(SimpleMath::Vector3(&m_obj.m_pos.GetColumn(2)[0]), SimpleMath::Vector2(4, 4));
+  VertexPositionTexture v4(SimpleMath::Vector3(&m_obj.m_pos.GetColumn(3)[0]), SimpleMath::Vector2(0, 4));
   m_pBatch->DrawQuad(v1, v2, v3, v4);
   m_pBatch->End();
 }

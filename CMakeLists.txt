@@ -32,7 +32,7 @@ set(CMAKE_C_STANDARD 11)
 
 # C++ standard
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 add_definitions(-D_SILENCE_CXX17_RESULT_OF_DEPRECATION_WARNING=1)
 
@@ -50,10 +50,16 @@ if (NOT OS_WINDOWS)
     "$<$<CONFIG:DEBUG>:-O0>"
     "$<$<CONFIG:RELEASE>:-O3>"
   )
+else()
+  add_definitions(
+    -D_CRT_SECURE_NO_WARNINGS
+    -DNOMINMAX 
+  )
 endif()
 
 include_directories(
   third-party
+  third-party/reactphysics3d/include
   source
 )
 
@@ -100,6 +106,7 @@ find_package(SDL2 REQUIRED)
 set(LINK_LIBS 
   SDL2::SDL2
   SDL2::SDL2main
+  reactphysics3d
   easyloggingpp
 )
 
@@ -117,6 +124,13 @@ endif()
 target_link_libraries(${PROJECT_NAME}
   PRIVATE
     ${LINK_LIBS}
+)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+  # Copy the assets directory to output folder
+  COMMAND ${CMAKE_COMMAND} -E copy_directory 
+    ${CMAKE_CURRENT_SOURCE_DIR}/assets 
+    $<TARGET_FILE_DIR:${PROJECT_NAME}>/assets
 )
 
 if(OS_WINDOWS)

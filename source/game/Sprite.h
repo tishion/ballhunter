@@ -12,14 +12,16 @@
 #include <common/SmartPointer.h>
 
 #include <engine/input/InputContoller.h>
-#include <engine/object/Sphere.h>
+
+#include <game/Ball.h>
 
 namespace Game {
-class Sprite : public Engine::Sphere {
+class Sprite : public Game::Ball {
   DECLARE_SMART_POINTER(Sprite);
 
 public:
-  Sprite(Engine::IRenderer::RefPtr renderer, Engine::InputContoller::RefPtr controller, float radius);
+  Sprite(Engine::IRenderer::RefPtr renderer, Engine::Physics::RefPtr physics, Engine::InputContoller::RefPtr controller,
+         float radius);
 
   ~Sprite();
 
@@ -27,12 +29,6 @@ public:
 
 private:
   Engine::InputContoller::RefPtr m_pController;
-
-  // accumulated translation matrix
-  Common::Matrix m_translateMatrix;
-
-  // accumulated rotation matrix
-  Common::Matrix m_rotationMatrix;
 };
 } // namespace Game
 #endif

@@ -13,9 +13,6 @@
 
 #include <sdkddkver.h>
 
-// Use the C++ standard templated min/max
-#define NOMINMAX
-
 // Include <mcx.h> if you need this
 #define NOMCX
 

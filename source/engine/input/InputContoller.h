@@ -40,6 +40,8 @@ private:
 
   Common::Float3 m_velocity;
 
+  float m_vloecityGain = 5;
+
   // Input states for Keyboard.
   bool m_forward = false;
   bool m_back = false;

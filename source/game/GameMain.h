@@ -16,16 +16,19 @@
 #include <engine/input/InputContoller.h>
 #include <engine/object/Camera.h>
 #include <engine/object/Floor.h>
+#include <engine/physics/Physics.h>
 #include <engine/renderer/IRenderer.h>
 #include <engine/utils/StepTimer.h>
 
 #include <game/Ball.h>
+#include <game/Ground.h>
 #include <game/Sprite.h>
 
 namespace Game {
 
 class GameMain
     : public Engine::RenderEventListener
+    , public reactphysics3d::EventListener
     , public std::enable_shared_from_this<GameMain> {
   DECLARE_SMART_POINTER(GameMain);
 
@@ -44,8 +47,14 @@ public:
 
   void Update();
 
+  void RestartGame();
+
 protected:
   void UpdateGame();
+
+  bool HandleBallBallCollision();
+
+  void onContact(const CollisionCallback::CallbackData& callbackData) override;
 
   void OnRenderDeviceLost() override;
 
@@ -54,6 +63,7 @@ protected:
 private:
   Engine::StepTimer m_timer;
 
+  Engine::Physics::RefPtr m_pPhysics;
   Engine::Camera::RefPtr m_pCamera;
   Engine::IRenderer::RefPtr m_pRenderer;
   Engine::InputContoller::RefPtr m_pController;
@@ -63,9 +73,14 @@ private:
   float worldTop;
   float worldBottom;
 
-  Engine::Floor::RefPtr m_pFloor;
-  Game::Ball::RefPtr m_pBall;
+  Game::Ground::RefPtr m_pGround;
+
+  Game::Ball::RefPtr m_pBallA;
+  Game::Ball::RefPtr m_pBallB;
+
   Game::Sprite::RefPtr m_pSprite;
+  float m_radiusSpriteAndBall = 0;
+  float m_radiusBallAndBall = 0;
 };
 
 } // namespace Game

@@ -12,7 +12,7 @@ Camera::Camera() {
   );
 
   // Setup the projection matrix.
-  SetProjParams(M_PI / 4, 1.0f, 1.0f, 1000.0f);
+  SetProjParams(static_cast<float>(M_PI) / 4, 1.0f, 1.0f, 1000.0f);
 }
 
 void Camera::SetViewParams(Float3 eye, Float3 lookAt, Float3 up) {

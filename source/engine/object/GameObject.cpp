@@ -34,6 +34,10 @@ Common::Float3 GameObject::GetVelocity() {
   return m_velocity;
 }
 
+void GameObject::SetTexture(std::filesystem::path& texture) {
+  m_textureImage = texture;
+}
+
 void GameObject::SetVelocity(Common::Float3 velocity) {
   m_velocity = velocity;
 }

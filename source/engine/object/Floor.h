@@ -9,6 +9,8 @@
 
 #pragma once
 
+#include <filesystem>
+
 #include <common/BasicTypes.h>
 
 #include <engine/renderer/IRenderable.h>
@@ -35,6 +37,8 @@ private:
   std::unique_ptr<Implementation> m_pImpl;
 
   Common::Float4x4 m_pos;
+
+  std::filesystem::path m_textureImage;
 };
 
 } // namespace Engine

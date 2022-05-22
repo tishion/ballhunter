@@ -4,14 +4,30 @@
 
 using namespace Common;
 
-Game::Ball::Ball(Engine::IRenderer::RefPtr renderer, float radius)
-    : Engine::Sphere(renderer, radius) {
-  // m_position.z = -20.0f;
+Game::Ball::Ball(Engine::IRenderer::RefPtr renderer, Engine::Physics::RefPtr physics, float radius)
+    : Engine::Sphere(renderer, radius)
+    , m_pPhysics(physics) {
+
+  auto transfrom = reactphysics3d::Transform::identity();
+  m_pCollisionBody = m_pPhysics->m_pPhysicsWorld->createCollisionBody(transfrom);
+  m_pCollisionShape = m_pPhysics->m_physicsCommon.createSphereShape(radius);
+  m_pCollider = m_pCollisionBody->addCollider(m_pCollisionShape, transfrom);
+
   m_rotationMatrix = Matrix::Identity();
   m_translateMatrix = Matrix::FromTranslationVector(m_position);
+
+  m_textureImage = "assets\\ball.png";
 }
 
 Game::Ball::~Ball() {
+  m_pCollisionBody->removeCollider(m_pCollider);
+  m_pPhysics->m_physicsCommon.destroySphereShape(m_pCollisionShape);
+  m_pPhysics->m_pPhysicsWorld->destroyCollisionBody(m_pCollisionBody);
+}
+
+void Game::Ball::SetPosition(Common::Float3 position) {
+  GameObject::SetPosition(position);
+  m_translateMatrix = Matrix::FromTranslationVector(position);
 }
 
 void Game::Ball::SetBounds(Common::Float4 rect) {
@@ -20,27 +36,32 @@ void Game::Ball::SetBounds(Common::Float4 rect) {
 
 void Game::Ball::Update(const Engine::StepTimer& timer) {
   // compute move vector
-  float elapsedSecond = timer.GetElapsedSeconds();
+  float elapsedSecond = static_cast<float>(timer.GetElapsedSeconds());
   m_moveVector = m_velocity * elapsedSecond;
 
-  // handle collision
-  HandleCollision(m_position + m_moveVector);
+  // handle world boundry collision
+  HandleWorldBoundaryCollision(m_position + m_moveVector);
 
   // update position
   m_position += m_moveVector;
 
-  // update translation matrix
+  // update accumulated translation matrix
   m_translateMatrix *= Matrix::FromTranslationVector(m_moveVector);
 
-  // update self-rotation matrix
+  //// update self-rotation matrix
   m_rotationMatrix *= Matrix::FromRotationMatrix(Matrix::RotationX(m_moveVector.z / m_radius));
   m_rotationMatrix *= Matrix::FromRotationMatrix(Matrix::RotationZ(-m_moveVector.x / m_radius));
 
   // compute the word matrix by translation and rotation
   m_worldMatrix = m_translateMatrix * m_rotationMatrix;
+
+  reactphysics3d::Transform transform(reactphysics3d::Vector3(m_position.x, m_position.y, m_position.z), //
+                                      reactphysics3d::Quaternion() // ignore rotation
+  );
+  m_pCollisionBody->setTransform(transform);
 }
 
-void Game::Ball::HandleCollision(Common::Float3 pos) {
+void Game::Ball::HandleWorldBoundaryCollision(Common::Float3 pos) {
   // collision detection
   Float3 reboundVector = Math::kZeros3f;
   Float3 limitPosition = m_position;
@@ -84,6 +105,7 @@ void Game::Ball::HandleCollision(Common::Float3 pos) {
     if (reboundVector != Math::kZeros3f) {
       m_velocity = reboundVector;
     } else {
+      // if the computed new velocity is zero, we just inverse the original one
       m_velocity = -m_velocity;
     }
   }

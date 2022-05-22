@@ -9,11 +9,6 @@
 
 #pragma once
 
-#include <wrl.h>
-#include <wrl/client.h>
-
-#include <d3d11.h>
-
 #include <DirectXTK/CommonStates.h>
 #include <DirectXTK/Effects.h>
 #include <DirectXTK/PrimitiveBatch.h>

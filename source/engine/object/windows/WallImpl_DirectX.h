@@ -9,7 +9,11 @@
 
 #pragma once
 
+#include <DirectXTK/CommonStates.h>
+#include <DirectXTK/Effects.h>
+#include <DirectXTK/GeometricPrimitive.h>
 #include <DirectXTK/SimpleMath.h>
+#include <DirectXTK/VertexTypes.h>
 
 #include <engine/renderer/windows/DXDeviceResources.h>
 
@@ -34,6 +38,13 @@ public:
   Engine::IRenderer::RefPtr m_pRenderer;
 
   DXDeviceResources* m_deviceResource = nullptr;
+
+  typedef DirectX::VertexPositionTexture VertexType;
+
+  std::unique_ptr<DirectX::GeometricPrimitive> m_pShape;
+  std::unique_ptr<DirectX::BasicEffect> m_effect;
+  Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_texture;
+  Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
 };
 } // namespace Engine
 

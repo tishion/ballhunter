@@ -9,6 +9,8 @@
 
 #pragma once
 
+#include <filesystem>
+
 #include <common/BasicTypes.h>
 
 #include <engine/renderer/IRenderable.h>
@@ -39,6 +41,8 @@ public:
 
   Common::Float3 GetVelocity();
 
+  void SetTexture(std::filesystem::path& texture);
+
 protected:
   Engine::IRenderer::RefPtr m_pRenderer;
 
@@ -46,6 +50,8 @@ protected:
   Common::Float3 m_velocity;
 
   Common::Matrix m_worldMatrix;
+
+  std::filesystem::path m_textureImage;
 };
 
 } // namespace Engine
