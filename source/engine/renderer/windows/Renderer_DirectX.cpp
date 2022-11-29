@@ -76,9 +76,25 @@ void Renderer_DirectX::CreateWindowSizeDependentResources() {
 void Renderer_DirectX::Render() {
   BeginScene();
 
-  // update IA, RS and OM context
+  // Input Assembler
   m_pDeviceResources->GetD3DDeviceContext()->IASetInputLayout(m_pRenderingContext->m_inputLayout.Get());
+
+  // Vertex Shader
+
+  // Hull Shader
+
+  // Tessellator Stage
+
+  // Domain Shader
+
+  // Geometry Shader
+
+  // Rasterizer Stage
   m_pDeviceResources->GetD3DDeviceContext()->RSSetState(m_pRenderingContext->m_states->CullNone());
+
+  // Pixel Shader
+
+  // Output Merge
   m_pDeviceResources->GetD3DDeviceContext()->OMSetDepthStencilState(m_pRenderingContext->m_states->DepthNone(), 0);
   m_pDeviceResources->GetD3DDeviceContext()->OMSetBlendState(m_pRenderingContext->m_states->Opaque(), nullptr,
                                                              0xFFFFFFFF);

@@ -13,12 +13,11 @@
 
 #include <common/BasicTypes.h>
 
-#include <engine/renderer/IRenderable.h>
-#include <engine/renderer/IRenderer.h>
+#include <engine/object/GameObject.h>
 
 namespace Engine {
 
-class Floor : public IRenderable {
+class Floor : public GameObject {
   DECLARE_SMART_POINTER(Floor);
 
 public:

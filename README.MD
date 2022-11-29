@@ -32,7 +32,7 @@ The DirectXTK and SDL2 are managed by VCPKG, the remaining are source included.
 For windows platform, run the following command to generate the project files
 
 ```bat
-generate-win-proj.bat -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
+generate-win-proj.bat -DCMAKE_TOOLCHAIN_FILE=%VCPKG_ROOT%/scripts/buildsystems/vcpkg.cmake
 ```
 
 ![Screenshot](Screenshot.png "Screenshot")

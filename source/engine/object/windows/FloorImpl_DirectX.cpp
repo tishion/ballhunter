@@ -65,18 +65,27 @@ void Engine::Floor::Implementation::Render(void* context) {
     return;
   }
 
-  deviceContext->OMSetBlendState(renderingContext->m_states->Opaque(), nullptr, 0xFFFFFFFF);
-  deviceContext->OMSetDepthStencilState(renderingContext->m_states->DepthNone(), 0);
+  // Input Assembler
+  deviceContext->IASetInputLayout(m_inputLayout.Get());
+
+  // Rasterizer
   deviceContext->RSSetState(renderingContext->m_states->CullNone());
 
+  // Pixel Shader
+  auto sampler = renderingContext->m_states->PointWrap();
+  deviceContext->PSSetSamplers(0, 1, &sampler);
+
+  // Output Merge
+  deviceContext->OMSetBlendState(renderingContext->m_states->Opaque(), nullptr, 0xFFFFFFFF);
+  deviceContext->OMSetDepthStencilState(renderingContext->m_states->DepthNone(), 0);
+
+  SimpleMath::Matrix worldMatrix(&(m_obj.m_worldMatrix[0]));
+  m_effect->SetWorld(worldMatrix);
   m_effect->SetView(renderingContext->m_viewMatrix);
   m_effect->SetProjection(renderingContext->m_projMatrix);
   m_effect->Apply(deviceContext);
 
-  auto sampler = renderingContext->m_states->PointWrap();
-  deviceContext->PSSetSamplers(0, 1, &sampler);
-  deviceContext->IASetInputLayout(m_inputLayout.Get());
-
+  // Draw
   m_pBatch->Begin();
   VertexPositionTexture v1(SimpleMath::Vector3(&m_obj.m_pos.GetColumn(0)[0]), SimpleMath::Vector2(0, 0));
   VertexPositionTexture v2(SimpleMath::Vector3(&m_obj.m_pos.GetColumn(1)[0]), SimpleMath::Vector2(4, 0));
